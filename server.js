@@ -1,16 +1,19 @@
-// we start by importing modules and loading express 
+// we start by importing modules libraries and loading express 
 const express = require("express") // this imports the express framework to nodejs
 const app = express ();  // this creates an instance of the express application 
 const dotenv = require("dotenv"); // it is saying the program to require the package 
 dotenv.config(); // it is saying to configure and load the enviroments variables from the .env file 
 const mongoose = require("mongoose"); // this is saying to import the mongoose library 
 const Cocktail = require ("./models/cocktail.js"); // this imports the model that i created in cocktail.js
-const morgan = require("morgan");
+const morgan = require("morgan"); // this is importing the middleware morgan that logs information from http requests
 const methodOverride = require("method-override"); // this is a middleware thattricks the express app into thinking that we did PUT and DELETE request from the browser
-app.use(express.urlencoded({ extended: false })); // this is the middleware that extracts the data and converts it into a javascript onbject and then attaches it to the req.obj
-app.use(methodOverride("_method")); // new
-app.use(morgan("dev"));
+const path = require("path") // this line imports the path module , the path module creates a path from one file to another file
 
+
+app.use(express.urlencoded({ extended: false })); // this is the middleware that extracts the data and converts it into a javascript object and then attaches it to the req.obj
+app.use(methodOverride("_method")); // new
+app.use(morgan("dev")); // this allows me to use the morgan middleware in my node.js and the word "dev" is a format for logging http request 
+app.use(express.static(path.join(__dirname, "public"))); // this creates a path to the public directory to retrive files from it 
 mongoose.connect(process.env.MONGODB_URI); // this is saying to connect to the using the connection string in the .env file
 
 
@@ -19,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI); // this is saying to connect to the u
 mongoose.connection.on ("connected", () => {
     console.log(`baby we are connected again but this time to ${mongoose.connection.name}.`)
 });
-
+app.use(express.static(path.join(__dirname, "public")));
 app.get("/", async (req, res) => {
     res.render("index.ejs")
 }); 
