@@ -1,0 +1,25 @@
+<!-- views/fruits/show.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= cocktail.name %></title> 
+  </head>
+  <body>
+    <a href="/cocktails/">Back to Cocktails</a>
+
+    <h1><%= cocktail.name %></h1> 
+    <% if (cocktail.isReadyToDrink) { %>
+        <p>My dude you are about to get lit!</p>
+      <% } else { %>
+        <p>Sorry bro I guess you will have to stay sober for the night!</p>
+      <% } %>
+      <form action="/cocktails/<%=cocktail._id%>?_method=DELETE" method="POST">
+        <button type="submit">Delete <%=cocktail.name %></button>
+        <a href="/cocktails/<%= cocktail._id %>/edit">Edit <%= cocktail.name %></a>
+        <a href="/cocktails">Get Back To Drinking</a>
+    </form>
+  </body>
+</html>
